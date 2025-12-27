@@ -10,9 +10,9 @@
 const CONFIG = {
   // Video URLs
   videos: {
-    da: './videos/video_da.mp4',
-    ur: './videos/video_ur.mp4',
-    ar: './videos/video_ar.mp4',
+    da: '/videos/video_da.mp4',
+    ur: '/videos/video_ur.mp4',
+    ar: '/videos/video_ar.mp4',
   },
 
   // Sprog-metadata - ALLE kræver betaling
