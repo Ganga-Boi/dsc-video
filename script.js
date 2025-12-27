@@ -212,13 +212,14 @@ function processPayment() {
     elements.confirmPayBtn.disabled = true;
 
     // Simuler API-kald
+    const langToUnlock = pendingLang; // Gem før modal lukkes
     setTimeout(() => {
       elements.confirmPayBtn.textContent = ui.payButton;
       elements.confirmPayBtn.disabled = false;
       
       closePaymentModal();
-      unlockLanguage(pendingLang);
-      playVideo(pendingLang);
+      unlockLanguage(langToUnlock);
+      playVideo(langToUnlock);
       showToast(`✓ ${ui.success}`);
     }, 1500);
   } else {
