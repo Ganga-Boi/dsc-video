@@ -114,8 +114,8 @@ function init() {
   setupEventListeners();
   updateUI();
   
-  // Vælg dansk som default og vis paywall
-  selectLanguage('da');
+  // Vælg dansk som default - uden autoplay ved page load
+  selectLanguage('da', false);
 }
 
 // ============ PURCHASES ============
@@ -154,7 +154,7 @@ function resetPurchases() {
   purchasedLanguages.clear();
   savePurchases();
   updateUI();
-  selectLanguage('da');
+  selectLanguage('da', false);
   console.log('Alle køb nulstillet');
 }
 
@@ -260,11 +260,11 @@ function processPayment() {
 
 // ============ VIDEO PLAYER ============
 
-function selectLanguage(lang) {
+function selectLanguage(lang, autoplay = true) {
   currentLang = lang;
   
   if (hasPurchased(lang)) {
-    playVideo(lang);
+    playVideo(lang, autoplay);
   } else {
     showPaywall(lang);
   }
@@ -272,7 +272,7 @@ function selectLanguage(lang) {
   updateUI();
 }
 
-function playVideo(lang) {
+function playVideo(lang, autoplay = true) {
   currentLang = lang;
   hidePaywall();
   
@@ -280,7 +280,10 @@ function playVideo(lang) {
   const videoUrl = CONFIG.videos[lang] + '?t=' + Date.now();
   elements.videoSource.src = videoUrl;
   elements.player.load();
-  elements.player.play().catch(() => {});
+  
+  if (autoplay) {
+    elements.player.play().catch(() => {});
+  }
   
   updateUI();
 }
