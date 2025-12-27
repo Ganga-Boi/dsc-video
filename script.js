@@ -279,6 +279,7 @@ function playVideo(lang) {
   const videoUrl = CONFIG.videos[lang];
   elements.videoSource.src = videoUrl;
   elements.player.load();
+  elements.player.currentTime = 0; // Start forfra
   elements.player.play().catch(() => {});
   
   updateUI();
