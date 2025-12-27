@@ -202,6 +202,33 @@ function closePaymentModal() {
 function processPayment() {
   if (!pendingLang) return;
 
+  // Valider formular
+  const cardNumber = elements.cardNumber.value.replace(/\s/g, '');
+  const cardExpiry = elements.cardExpiry.value;
+  const cardCvc = elements.cardCvc.value;
+  const cardEmail = elements.cardEmail.value;
+
+  if (cardNumber.length < 16) {
+    alert('Indtast et gyldigt kortnummer (16 cifre)');
+    elements.cardNumber.focus();
+    return;
+  }
+  if (cardExpiry.length < 5) {
+    alert('Indtast udløbsdato (MM/ÅÅ)');
+    elements.cardExpiry.focus();
+    return;
+  }
+  if (cardCvc.length < 3) {
+    alert('Indtast CVC (3-4 cifre)');
+    elements.cardCvc.focus();
+    return;
+  }
+  if (!cardEmail.includes('@')) {
+    alert('Indtast en gyldig email');
+    elements.cardEmail.focus();
+    return;
+  }
+
   const langConfig = CONFIG.languages[pendingLang];
   const ui = langConfig.ui;
 
