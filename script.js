@@ -283,6 +283,8 @@ function playVideo(lang, autoplay = true) {
   
   if (autoplay) {
     elements.player.play().catch(() => {});
+  } else {
+    elements.player.pause();
   }
   
   updateUI();
