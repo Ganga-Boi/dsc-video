@@ -276,15 +276,10 @@ function playVideo(lang) {
   currentLang = lang;
   hidePaywall();
   
-  const videoUrl = CONFIG.videos[lang];
+  // Tilføj timestamp så browseren ikke husker position
+  const videoUrl = CONFIG.videos[lang] + '?t=' + Date.now();
   elements.videoSource.src = videoUrl;
   elements.player.load();
-  
-  // Start forfra når video er klar
-  elements.player.onloadedmetadata = () => {
-    elements.player.currentTime = 0;
-  };
-  
   elements.player.play().catch(() => {});
   
   updateUI();
