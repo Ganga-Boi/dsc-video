@@ -2,7 +2,7 @@
 <html lang="da">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Dansk Sexolog Center - Video</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     .header{background:var(--bg-dark);color:var(--text-light);padding:.75rem 1.5rem;font-size:.875rem}
+    .header a{color:var(--text-light)}
     .logo-bar{padding:1rem 1.5rem;border-bottom:1px solid var(--border)}
     .logo{font-size:1.5rem;font-weight:700;color:var(--text)}
     .logo span{color:var(--primary)}
@@ -41,6 +42,7 @@
     .btn{padding:1rem 2.5rem;border:none;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s}
     .btn-primary{background:var(--primary);color:var(--text-light)}
     .btn-primary:hover{background:var(--primary-dark)}
+    .btn-primary:disabled{background:#999;cursor:not-allowed}
     .btn-block{width:100%}
     .info{background:var(--card);border-radius:8px;padding:1.5rem;border-left:4px solid var(--primary)}
     .info h3{margin-bottom:.5rem;color:var(--text)}
@@ -48,7 +50,7 @@
     .footer{margin-top:3rem;padding:1.5rem;text-align:center;color:var(--text-muted);font-size:.875rem;border-top:1px solid var(--border)}
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1rem}
     .modal-overlay.hidden{display:none}
-    .modal{background:#fff;border-radius:12px;width:100%;max-width:400px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .modal{background:#fff;border-radius:12px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
     .modal-header{background:var(--bg-dark);color:#fff;padding:1.25rem;display:flex;justify-content:space-between;align-items:center}
     .modal-header h3{font-size:1rem;font-weight:500}
     .modal-close{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;line-height:1}
@@ -65,13 +67,14 @@
     .test-badge{background:#fef3c7;color:#92400e;padding:.5rem 1rem;border-radius:6px;font-size:.75rem;text-align:center;margin-bottom:1rem}
     .secure-badge{display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--text-muted);font-size:.75rem;margin-top:1rem}
     .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--success);color:#fff;padding:1rem 2rem;border-radius:8px;font-weight:500;z-index:1001;animation:slideUp .3s ease}
+    .toast.hidden{display:none}
     @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-    @media(max-width:600px){.lang-selector{flex-direction:column}.lang-btn{justify-content:center}h1{font-size:1.5rem}.video-container{aspect-ratio:auto;min-height:350px}.paywall{padding:1rem}.paywall-icon{font-size:2.5rem;margin-bottom:.5rem}.paywall h2{font-size:1.25rem}.price{font-size:2rem;margin-bottom:1rem}}
+    @media(max-width:600px){.lang-selector{flex-direction:column}.lang-btn{justify-content:center}h1{font-size:1.5rem}.video-container{aspect-ratio:auto;min-height:280px}.paywall{padding:1rem}.paywall-icon{font-size:2.5rem;margin-bottom:.5rem}.paywall h2{font-size:1.25rem}.price{font-size:2rem;margin-bottom:1rem}.modal{max-height:85vh}}
   </style>
 </head>
 <body>
   <div class="header">
-    <div>📞 5252 6262 | ✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1d767273697c76695d70746e7f6f687a6e6e7672717873337976">[email&#160;protected]</a></div>
+    <div>📞 5252 6262 | ✉ kontakt@444444444444444</div>
   </div>
   <div class="logo-bar">
     <div class="logo"><span>DSC</span> DANSK SEXOLOG CENTER</div>
@@ -80,7 +83,7 @@
     <h1>Individuel &amp; Parterapi</h1>
     <p class="subtitle">Undervisningsvideo om behandlingsforløbet</p>
     <div class="video-container">
-      <video id="player" controls playsinline>
+      <video id="player" controls playsinline preload="none">
         <source id="video-source" src="" type="video/mp4">
       </video>
       <div class="paywall" id="paywall">
@@ -92,7 +95,7 @@
       </div>
     </div>
     <div class="lang-selector">
-      <button class="lang-btn locked" data-lang="da">🇩🇰 Dansk</button>
+      <button class="lang-btn active locked" data-lang="da">🇩🇰 Dansk</button>
       <button class="lang-btn locked" data-lang="ur">🇵🇰 اردو (Urdu)</button>
       <button class="lang-btn locked" data-lang="ar">🇸🇦 العربية (Arabisk)</button>
     </div>
@@ -135,4 +138,11 @@
           <input type="email" id="card-email" inputmode="email" autocomplete="email" placeholder="din@email.dk">
         </div>
         <button class="btn btn-primary btn-block" id="confirm-pay-btn">Betal €5,00</button>
-        <div class="secure-bad
+        <div class="secure-badge">🔒 Sikker testbetaling</div>
+      </div>
+    </div>
+  </div>
+  <div class="toast hidden" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
