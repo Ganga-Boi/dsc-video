@@ -121,22 +121,12 @@ function init() {
 // ============ PURCHASES ============
 
 function loadPurchases() {
-  try {
-    const stored = localStorage.getItem(CONFIG.storageKey);
-    if (stored) {
-      JSON.parse(stored).forEach(lang => purchasedLanguages.add(lang));
-    }
-  } catch (e) {
-    console.warn('Could not load purchases:', e);
-  }
+  // Køb gemmes ikke - starter altid forfra
+  purchasedLanguages.clear();
 }
 
 function savePurchases() {
-  try {
-    localStorage.setItem(CONFIG.storageKey, JSON.stringify([...purchasedLanguages]));
-  } catch (e) {
-    console.warn('Could not save purchases:', e);
-  }
+  // Ingen lagring
 }
 
 function hasPurchased(lang) {
@@ -145,7 +135,6 @@ function hasPurchased(lang) {
 
 function unlockLanguage(lang) {
   purchasedLanguages.add(lang);
-  savePurchases();
   updateUI();
 }
 
