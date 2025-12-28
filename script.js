@@ -65,6 +65,15 @@ document.addEventListener('DOMContentLoaded', function() {
   var cardEmail = document.getElementById('card-email');
   var confirmPayBtn = document.getElementById('confirm-pay-btn');
 
+  // Mobile: scroll input into view when focused
+  [cardNumber, cardExpiry, cardCvc, cardEmail].forEach(function(input) {
+    input.addEventListener('focus', function() {
+      setTimeout(function() {
+        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    });
+  });
+
   function updateUI() {
     for (var i = 0; i < langBtns.length; i++) {
       var btn = langBtns[i];
