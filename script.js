@@ -152,16 +152,31 @@
     var exp = cardExpiry.value.replace(/\s/g, '');
     var cvc = cardCvc.value.replace(/\s/g, '');
     var email = cardEmail.value.replace(/\s/g, '');
-    if (num.length !== 16) return false;
-    if (exp.length < 5) return false;
-    if (cvc.length < 3) return false;
-    if (email.indexOf('@') === -1 || email.indexOf('.') === -1) return false;
+    if (num.length !== 16) {
+      alert('Kortnummer skal være 16 cifre');
+      cardNumber.focus();
+      return false;
+    }
+    if (exp.length < 5) {
+      alert('Udløb skal være i format MM/ÅÅ');
+      cardExpiry.focus();
+      return false;
+    }
+    if (cvc.length < 3) {
+      alert('CVC skal være mindst 3 cifre');
+      cardCvc.focus();
+      return false;
+    }
+    if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
+      alert('Indtast en gyldig emailadresse');
+      cardEmail.focus();
+      return false;
+    }
     return true;
   }
 
   function processPayment() {
     if (!validateForm()) {
-      alert('Udfyld alle felter korrekt.');
       return;
     }
 
