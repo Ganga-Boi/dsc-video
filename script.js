@@ -1,46 +1,39 @@
-document.addEventListener('DOMContentLoaded', function() {
+(function() {
+  'use strict';
+
   var CONFIG = {
     videos: {
-      da: '/videos/video_da.mp4',
-      ur: '/videos/video_ur.mp4',
-      ar: '/videos/video_ar.mp4'
+      da: 'videos/video_da.mp4',
+      ur: 'videos/video_ur.mp4',
+      ar: 'videos/video_ar.mp4'
     },
     languages: {
       da: {
-        name: 'Dansk',
-        ui: {
-          title: 'Se videoen på Dansk',
-          description: 'Få adgang til denne undervisningsvideo',
-          buyButton: 'Køb adgang',
-          payButton: 'Betal €5,00',
-          processing: 'Behandler...',
-          success: 'Dansk er nu låst op!',
-          product: 'Video adgang - Dansk'
-        }
+        title: 'Se videoen på Dansk',
+        desc: 'Få adgang til denne undervisningsvideo',
+        buyBtn: 'Køb adgang',
+        payBtn: 'Betal €5,00',
+        processing: 'Behandler...',
+        success: 'Dansk er nu låst op!',
+        product: 'Video adgang - Dansk'
       },
       ur: {
-        name: 'Urdu',
-        ui: {
-          title: 'ویڈیو اردو میں دیکھیں',
-          description: 'اس تعلیمی ویڈیو تک رسائی حاصل کریں',
-          buyButton: 'رسائی خریدیں',
-          payButton: '€5,00 ادا کریں',
-          processing: '...جاری ہے',
-          success: '!اردو اب دستیاب ہے',
-          product: 'ویڈیو تک رسائی - اردو'
-        }
+        title: 'ویڈیو اردو میں دیکھیں',
+        desc: 'اس تعلیمی ویڈیو تک رسائی حاصل کریں',
+        buyBtn: 'رسائی خریدیں',
+        payBtn: '€5,00 ادا کریں',
+        processing: '...جاری ہے',
+        success: '!اردو اب دستیاب ہے',
+        product: 'ویڈیو تک رسائی - اردو'
       },
       ar: {
-        name: 'Arabisk',
-        ui: {
-          title: 'شاهد الفيديو بالعربية',
-          description: 'احصل على وصول إلى هذا الفيديو التعليمي',
-          buyButton: 'اشترِ الوصول',
-          payButton: 'ادفع €5,00',
-          processing: '...جارٍ المعالجة',
-          success: '!العربية متاحة الآن',
-          product: 'الوصول إلى الفيديو - العربية'
-        }
+        title: 'شاهد الفيديو بالعربية',
+        desc: 'احصل على وصول إلى هذا الفيديو التعليمي',
+        buyBtn: 'اشترِ الوصول',
+        payBtn: 'ادفع €5,00',
+        processing: '...جارٍ المعالجة',
+        success: '!العربية متاحة الآن',
+        product: 'الوصول إلى الفيديو - العربية'
       }
     }
   };
@@ -64,132 +57,171 @@ document.addEventListener('DOMContentLoaded', function() {
   var cardCvc = document.getElementById('card-cvc');
   var cardEmail = document.getElementById('card-email');
   var confirmPayBtn = document.getElementById('confirm-pay-btn');
+  var toast = document.getElementById('toast');
 
-  // Mobile: scroll input into view when focused
-  [cardNumber, cardExpiry, cardCvc, cardEmail].forEach(function(input) {
-    input.addEventListener('focus', function() {
-      setTimeout(function() {
-        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 300);
-    });
-  });
-
-  function updateUI() {
+  function updateLangButtons() {
     for (var i = 0; i < langBtns.length; i++) {
       var btn = langBtns[i];
       var lang = btn.getAttribute('data-lang');
       btn.classList.remove('active', 'locked', 'unlocked');
-      if (lang === currentLang) btn.classList.add('active');
-      if (purchased[lang]) btn.classList.add('unlocked');
-      else btn.classList.add('locked');
+      if (lang === currentLang) {
+        btn.classList.add('active');
+      }
+      if (purchased[lang]) {
+        btn.classList.add('unlocked');
+      } else {
+        btn.classList.add('locked');
+      }
     }
   }
 
   function showPaywall(lang) {
-    var ui = CONFIG.languages[lang].ui;
-    paywallTitle.textContent = ui.title;
-    paywallDesc.textContent = ui.description;
-    payBtn.textContent = ui.buyButton;
+    var cfg = CONFIG.languages[lang];
+    paywallTitle.textContent = cfg.title;
+    paywallDesc.textContent = cfg.desc;
+    payBtn.textContent = cfg.buyBtn;
     paywall.classList.remove('hidden', 'rtl', 'lang-ur', 'lang-ar');
-    if (lang === 'ur') paywall.classList.add('rtl', 'lang-ur');
-    if (lang === 'ar') paywall.classList.add('rtl', 'lang-ar');
+    if (lang === 'ur') {
+      paywall.classList.add('rtl', 'lang-ur');
+    } else if (lang === 'ar') {
+      paywall.classList.add('rtl', 'lang-ar');
+    }
   }
 
   function hidePaywall() {
     paywall.classList.add('hidden');
   }
 
+  function loadVideo(lang) {
+    videoSource.src = CONFIG.videos[lang] + '?t=' + Date.now();
+    player.load();
+  }
+
   function playVideo(lang) {
     currentLang = lang;
     hidePaywall();
-    videoSource.src = CONFIG.videos[lang] + '?t=' + Date.now();
-    player.load();
+    loadVideo(lang);
     player.play().catch(function() {});
-    updateUI();
+    updateLangButtons();
   }
 
-  function selectLanguage(lang) {
+  function selectLang(lang) {
     currentLang = lang;
-    if (purchased[lang]) playVideo(lang);
-    else showPaywall(lang);
-    updateUI();
+    updateLangButtons();
+    if (purchased[lang]) {
+      hidePaywall();
+      loadVideo(lang);
+    } else {
+      showPaywall(lang);
+      player.pause();
+    }
   }
 
   function openModal(lang) {
     pendingLang = lang;
-    var ui = CONFIG.languages[lang].ui;
-    modalProduct.textContent = ui.product;
-    confirmPayBtn.textContent = ui.payButton;
+    var cfg = CONFIG.languages[lang];
+    modalProduct.textContent = cfg.product;
+    confirmPayBtn.textContent = cfg.payBtn;
+    confirmPayBtn.disabled = false;
     modal.classList.remove('hidden');
     cardNumber.value = '';
     cardExpiry.value = '';
     cardCvc.value = '';
     cardEmail.value = '';
-    cardNumber.focus();
+    setTimeout(function() {
+      cardNumber.focus();
+    }, 100);
   }
 
   function closeModal() {
+    if (confirmPayBtn.disabled) return;
     modal.classList.add('hidden');
     pendingLang = null;
   }
 
-  function processPayment() {
-    if (!pendingLang) return;
-    var num = cardNumber.value.replace(/\s/g, '');
-    if (num.length < 16) { alert('Indtast kortnummer (16 cifre)'); return; }
-    if (cardExpiry.value.length < 5) { alert('Indtast udløbsdato'); return; }
-    if (cardCvc.value.length < 3) { alert('Indtast CVC'); return; }
-    if (cardEmail.value.indexOf('@') === -1) { alert('Indtast email'); return; }
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.remove('hidden');
+    setTimeout(function() {
+      toast.classList.add('hidden');
+    }, 3000);
+  }
 
-    var ui = CONFIG.languages[pendingLang].ui;
+  function validateForm() {
+    var num = cardNumber.value.replace(/\s/g, '');
+    var exp = cardExpiry.value.replace(/\s/g, '');
+    var cvc = cardCvc.value.replace(/\s/g, '');
+    var email = cardEmail.value.replace(/\s/g, '');
+    if (num.length !== 16) return false;
+    if (exp.length < 5) return false;
+    if (cvc.length < 3) return false;
+    if (email.indexOf('@') === -1 || email.indexOf('.') === -1) return false;
+    return true;
+  }
+
+  function processPayment() {
+    if (!validateForm()) {
+      alert('Udfyld alle felter korrekt.');
+      return;
+    }
+
     var lang = pendingLang;
-    confirmPayBtn.textContent = ui.processing;
+    if (!lang) return;
+
+    var cfg = CONFIG.languages[lang];
+    confirmPayBtn.textContent = cfg.processing;
     confirmPayBtn.disabled = true;
 
     setTimeout(function() {
-      confirmPayBtn.textContent = ui.payButton;
-      confirmPayBtn.disabled = false;
-      closeModal();
       purchased[lang] = true;
+      closeModal();
+      showToast(cfg.success);
       playVideo(lang);
-      showToast('✓ ' + ui.success);
     }, 1500);
   }
 
-  function showToast(msg) {
-    var t = document.querySelector('.toast');
-    if (t) t.remove();
-    var toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = msg;
-    document.body.appendChild(toast);
-    setTimeout(function() { toast.remove(); }, 3000);
-  }
-
   for (var i = 0; i < langBtns.length; i++) {
-    (function(btn) {
-      btn.addEventListener('click', function() {
-        selectLanguage(btn.getAttribute('data-lang'));
-      });
-    })(langBtns[i]);
+    langBtns[i].addEventListener('click', function() {
+      var lang = this.getAttribute('data-lang');
+      selectLang(lang);
+    });
   }
 
-  payBtn.addEventListener('click', function() { openModal(currentLang); });
+  payBtn.addEventListener('click', function() {
+    openModal(currentLang);
+  });
+
   modalClose.addEventListener('click', closeModal);
-  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  document.querySelector('.modal').addEventListener('click', function(e) {
+    e.stopPropagation();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+
   confirmPayBtn.addEventListener('click', processPayment);
 
-  cardNumber.addEventListener('input', function(e) {
-    var v = e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
-    e.target.value = v;
-  });
+  var inputs = [cardNumber, cardExpiry, cardCvc, cardEmail];
+  for (var j = 0; j < inputs.length; j++) {
+    inputs[j].addEventListener('focus', function() {
+      var el = this;
+      setTimeout(function() {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    });
+  }
 
-  cardExpiry.addEventListener('input', function(e) {
-    var v = e.target.value.replace(/\D/g, '');
-    if (v.length >= 2) v = v.slice(0,2) + '/' + v.slice(2,4);
-    e.target.value = v;
-  });
+  showPaywall(currentLang);
+  updateLangButtons();
 
-  selectLanguage('da');
-  console.log('JS loaded');
-});
+})();
