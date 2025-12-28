@@ -71,7 +71,7 @@
 </head>
 <body>
   <div class="header">
-    <div>📞 5252 6262 | ✉ kontakt@misbrugsskolen.dk</div>
+    <div>📞 5252 6262 | ✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1d767273697c76695d70746e7f6f687a6e6e7672717873337976">[email&#160;protected]</a></div>
   </div>
   <div class="logo-bar">
     <div class="logo"><span>DSC</span> DANSK SEXOLOG CENTER</div>
@@ -118,27 +118,21 @@
         </div>
         <div class="form-group">
           <label>Kortnummer</label>
-          <input type="text" id="card-number" placeholder="4242 4242 4242 4242" maxlength="19">
+          <input type="text" id="card-number" inputmode="numeric" autocomplete="cc-number" pattern="[0-9\s]*" placeholder="4242 4242 4242 4242" maxlength="19">
         </div>
         <div class="form-row">
           <div class="form-group">
             <label>Udløb</label>
-            <input type="text" id="card-expiry" placeholder="MM/ÅÅ" maxlength="5">
+            <input type="text" id="card-expiry" inputmode="numeric" autocomplete="cc-exp" pattern="[0-9/]*" placeholder="MM/ÅÅ" maxlength="5">
           </div>
           <div class="form-group">
             <label>CVC</label>
-            <input type="text" id="card-cvc" placeholder="123" maxlength="4">
+            <input type="text" id="card-cvc" inputmode="numeric" autocomplete="cc-csc" pattern="[0-9]*" placeholder="123" maxlength="4">
           </div>
         </div>
         <div class="form-group">
           <label>Email</label>
-          <input type="email" id="card-email" placeholder="din@email.dk">
+          <input type="email" id="card-email" inputmode="email" autocomplete="email" placeholder="din@email.dk">
         </div>
         <button class="btn btn-primary btn-block" id="confirm-pay-btn">Betal €5,00</button>
-        <div class="secure-badge">🔒 Sikker betaling (simuleret)</div>
-      </div>
-    </div>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
+        <div class="secure-bad
