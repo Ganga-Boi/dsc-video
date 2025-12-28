@@ -236,6 +236,32 @@
     });
   }
 
+  cardNumber.addEventListener('input', function() {
+    var digits = this.value.replace(/\D/g, '').substring(0, 16);
+    var formatted = '';
+    for (var i = 0; i < digits.length; i++) {
+      if (i > 0 && i % 4 === 0) formatted += ' ';
+      formatted += digits[i];
+    }
+    this.value = formatted;
+    if (digits.length === 16) cardExpiry.focus();
+  });
+
+  cardExpiry.addEventListener('input', function() {
+    var digits = this.value.replace(/\D/g, '').substring(0, 4);
+    if (digits.length >= 2) {
+      this.value = digits.substring(0, 2) + '/' + digits.substring(2);
+    } else {
+      this.value = digits;
+    }
+    if (this.value.length === 5) cardCvc.focus();
+  });
+
+  cardCvc.addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').substring(0, 4);
+    if (this.value.length >= 3) cardEmail.focus();
+  });
+
   showPaywall(currentLang);
   updateLangButtons();
 
