@@ -8,490 +8,81 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Noto+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #c41e3a;
-      --primary-dark: #a01830;
-      --bg: #ffffff;
-      --bg-dark: #1a1a1a;
-      --card: #f5f5f5;
-      --text: #1a1a1a;
-      --text-light: #ffffff;
-      --text-muted: #666666;
-      --border: #e0e0e0;
-      --success: #28a745;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* Header */
-    .header {
-      background: var(--bg-dark);
-      color: var(--text-light);
-      padding: 0.75rem 1.5rem;
-      font-size: 0.875rem;
-    }
-
-    /* Logo bar */
-    .logo-bar {
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--text);
-    }
-
-    .logo span {
-      color: var(--primary);
-    }
-
-    /* Main content */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-      font-size: 1.1rem;
-    }
-
-    /* Video player */
-    .video-container {
-      background: #000;
-      border-radius: 8px;
-      overflow: hidden;
-      aspect-ratio: 16/9;
-      margin-bottom: 1.5rem;
-      position: relative;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    /* Paywall overlay */
-    .paywall {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.92);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      color: var(--text-light);
-    }
-
-    .paywall.hidden {
-      display: none;
-    }
-
-    /* RTL support for Urdu og Arabisk */
-    .paywall.rtl {
-      direction: rtl;
-      text-align: center;
-    }
-
-    .paywall.rtl.lang-ur h2,
-    .paywall.rtl.lang-ur p,
-    .paywall.rtl.lang-ur button {
-      font-family: 'Noto Nastaliq Urdu', serif;
-    }
-
-    .paywall.rtl.lang-ar h2,
-    .paywall.rtl.lang-ar p,
-    .paywall.rtl.lang-ar button {
-      font-family: 'Noto Sans Arabic', sans-serif;
-    }
-
-    .paywall-icon {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .paywall h2 {
-      margin-bottom: 0.5rem;
-      font-size: 1.5rem;
-    }
-
-    .paywall p {
-      color: #aaa;
-      margin-bottom: 1.5rem;
-      max-width: 320px;
-    }
-
-    .price {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: var(--text-light);
-      margin-bottom: 1.5rem;
-    }
-
-    .price small {
-      font-size: 1rem;
-      color: #aaa;
-      font-weight: normal;
-    }
-
-    /* Language selector */
-    .lang-selector {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: center;
-      margin-bottom: 2rem;
-    }
-
-    .lang-btn {
-      padding: 0.875rem 1.75rem;
-      border: 2px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
-    }
-
-    .lang-btn:hover {
-      border-color: var(--primary);
-      background: #fff5f7;
-    }
-
-    .lang-btn.active {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: var(--text-light);
-    }
-
-    .lang-btn.locked::after {
-      content: '🔒';
-      font-size: 0.875rem;
-    }
-
-    .lang-btn.unlocked {
-      border-color: var(--success);
-    }
-
-    .lang-btn.unlocked::after {
-      content: '✓';
-      color: var(--success);
-      font-weight: bold;
-    }
-
-    .lang-btn.active.unlocked::after {
-      color: var(--text-light);
-    }
-
-    /* Buttons */
-    .btn {
-      padding: 1rem 2.5rem;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: var(--text-light);
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-block {
-      width: 100%;
-    }
-
-    /* Info section */
-    .info {
-      background: var(--card);
-      border-radius: 8px;
-      padding: 1.5rem;
-      border-left: 4px solid var(--primary);
-    }
-
-    .info h3 {
-      margin-bottom: 0.5rem;
-      color: var(--text);
-    }
-
-    .info p {
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-
-    /* Footer */
-    .footer {
-      margin-top: 3rem;
-      padding: 1.5rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.875rem;
-      border-top: 1px solid var(--border);
-    }
-
-    /* Payment Modal */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 1rem;
-    }
-
-    .modal-overlay.hidden {
-      display: none;
-    }
-
-    .modal {
-      background: white;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 400px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-
-    .modal-header {
-      background: var(--bg-dark);
-      color: white;
-      padding: 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-header h3 {
-      font-size: 1rem;
-      font-weight: 500;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    .modal-body {
-      padding: 1.5rem;
-    }
-
-    .modal-price {
-      text-align: center;
-      padding: 1rem;
-      background: var(--card);
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-price .amount {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--text);
-    }
-
-    .modal-price .desc {
-      color: var(--text-muted);
-      font-size: 0.875rem;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    .form-row {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .form-row .form-group {
-      flex: 1;
-    }
-
-    .test-badge {
-      background: #fef3c7;
-      color: #92400e;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .secure-badge {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      margin-top: 1rem;
-    }
-
-    /* Toast */
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--success);
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      font-weight: 500;
-      z-index: 1001;
-      animation: slideUp 0.3s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .lang-selector {
-        flex-direction: column;
-      }
-      
-      .lang-btn {
-        justify-content: center;
-      }
-
-      h1 {
-        font-size: 1.5rem;
-      }
-
-      /* Fix paywall på mobil */
-      .video-container {
-        aspect-ratio: auto;
-        min-height: 400px;
-      }
-
-      .paywall {
-        padding: 1rem;
-        overflow-y: auto;
-      }
-
-      .paywall-icon {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .paywall h2 {
-        font-size: 1.2rem;
-        margin-bottom: 0.25rem;
-      }
-
-      .paywall p {
-        font-size: 0.9rem;
-        margin-bottom: 0.75rem;
-      }
-
-      .price {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-      }
-
-      .btn {
-        padding: 0.75rem 1.5rem;
-      }
-    }
+    :root{--primary:#c41e3a;--primary-dark:#a01830;--bg:#fff;--bg-dark:#1a1a1a;--card:#f5f5f5;--text:#1a1a1a;--text-light:#fff;--text-muted:#666;--border:#e0e0e0;--success:#28a745}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    .header{background:var(--bg-dark);color:var(--text-light);padding:.75rem 1.5rem;font-size:.875rem}
+    .logo-bar{padding:1rem 1.5rem;border-bottom:1px solid var(--border)}
+    .logo{font-size:1.5rem;font-weight:700;color:var(--text)}
+    .logo span{color:var(--primary)}
+    .container{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+    h1{font-size:2rem;margin-bottom:.5rem;font-weight:600}
+    .subtitle{color:var(--text-muted);margin-bottom:2rem;font-size:1.1rem}
+    .video-container{background:#000;border-radius:8px;overflow:hidden;aspect-ratio:16/9;margin-bottom:1.5rem;position:relative;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+    video{width:100%;height:100%;object-fit:contain}
+    .paywall{position:absolute;inset:0;background:rgba(0,0,0,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;color:var(--text-light)}
+    .paywall.hidden{display:none}
+    .paywall.rtl{direction:rtl}
+    .paywall.lang-ur h2,.paywall.lang-ur p,.paywall.lang-ur button{font-family:'Noto Nastaliq Urdu',serif}
+    .paywall.lang-ar h2,.paywall.lang-ar p,.paywall.lang-ar button{font-family:'Noto Sans Arabic',sans-serif}
+    .paywall-icon{font-size:3.5rem;margin-bottom:1rem}
+    .paywall h2{margin-bottom:.5rem;font-size:1.5rem}
+    .paywall p{color:#aaa;margin-bottom:1.5rem;max-width:320px}
+    .price{font-size:2.5rem;font-weight:700;color:var(--text-light);margin-bottom:1.5rem}
+    .price small{font-size:1rem;color:#aaa;font-weight:400}
+    .lang-selector{display:flex;gap:.75rem;justify-content:center;margin-bottom:2rem}
+    .lang-btn{padding:.875rem 1.75rem;border:2px solid var(--border);background:var(--bg);color:var(--text);border-radius:6px;cursor:pointer;font-size:1rem;transition:all .2s;display:flex;align-items:center;gap:.5rem;font-weight:500}
+    .lang-btn:hover{border-color:var(--primary);background:#fff5f7}
+    .lang-btn.active{background:var(--primary);border-color:var(--primary);color:var(--text-light)}
+    .lang-btn.locked::after{content:'🔒';font-size:.875rem}
+    .lang-btn.unlocked{border-color:var(--success)}
+    .lang-btn.unlocked::after{content:'✓';color:var(--success);font-weight:700}
+    .lang-btn.active.unlocked::after{color:var(--text-light)}
+    .btn{padding:1rem 2.5rem;border:none;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s}
+    .btn-primary{background:var(--primary);color:var(--text-light)}
+    .btn-primary:hover{background:var(--primary-dark)}
+    .btn-block{width:100%}
+    .info{background:var(--card);border-radius:8px;padding:1.5rem;border-left:4px solid var(--primary)}
+    .info h3{margin-bottom:.5rem;color:var(--text)}
+    .info p{color:var(--text-muted);line-height:1.7}
+    .footer{margin-top:3rem;padding:1.5rem;text-align:center;color:var(--text-muted);font-size:.875rem;border-top:1px solid var(--border)}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1rem}
+    .modal-overlay.hidden{display:none}
+    .modal{background:#fff;border-radius:12px;width:100%;max-width:400px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .modal-header{background:var(--bg-dark);color:#fff;padding:1.25rem;display:flex;justify-content:space-between;align-items:center}
+    .modal-header h3{font-size:1rem;font-weight:500}
+    .modal-close{background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;line-height:1}
+    .modal-body{padding:1.5rem}
+    .modal-price{text-align:center;padding:1rem;background:var(--card);border-radius:8px;margin-bottom:1.5rem}
+    .modal-price .amount{font-size:2rem;font-weight:700;color:var(--text)}
+    .modal-price .desc{color:var(--text-muted);font-size:.875rem}
+    .form-group{margin-bottom:1rem}
+    .form-group label{display:block;margin-bottom:.5rem;font-size:.875rem;font-weight:500;color:var(--text)}
+    .form-group input{width:100%;padding:.75rem;border:1px solid var(--border);border-radius:6px;font-size:1rem}
+    .form-group input:focus{outline:none;border-color:var(--primary)}
+    .form-row{display:flex;gap:1rem}
+    .form-row .form-group{flex:1}
+    .test-badge{background:#fef3c7;color:#92400e;padding:.5rem 1rem;border-radius:6px;font-size:.75rem;text-align:center;margin-bottom:1rem}
+    .secure-badge{display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--text-muted);font-size:.75rem;margin-top:1rem}
+    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--success);color:#fff;padding:1rem 2rem;border-radius:8px;font-weight:500;z-index:1001;animation:slideUp .3s ease}
+    @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+    @media(max-width:600px){.lang-selector{flex-direction:column}.lang-btn{justify-content:center}h1{font-size:1.5rem}.video-container{aspect-ratio:auto;min-height:350px}.paywall{padding:1rem}.paywall-icon{font-size:2.5rem;margin-bottom:.5rem}.paywall h2{font-size:1.25rem}.price{font-size:2rem;margin-bottom:1rem}}
   </style>
 </head>
 <body>
-  <!-- Header -->
   <div class="header">
-    <div>📞 5252 6262 | ✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="adc6c2c3d9ccc6d9edc0c4decfdfd8cadedec6c2c1c8c383c9c6">[email&#160;protected]</a></div>
+    <div>📞 5252 6262 | ✉ kontakt@misbrugsskolen.dk</div>
   </div>
-
-  <!-- Logo -->
   <div class="logo-bar">
-    <div class="logo">
-      <span>DSC</span> DANSK SEXOLOG CENTER
-    </div>
+    <div class="logo"><span>DSC</span> DANSK SEXOLOG CENTER</div>
   </div>
-
-  <!-- Main Content -->
   <div class="container">
-    <h1>Individuel & Parterapi</h1>
+    <h1>Individuel &amp; Parterapi</h1>
     <p class="subtitle">Undervisningsvideo om behandlingsforløbet</p>
-
-    <!-- Video Player -->
     <div class="video-container">
       <video id="player" controls playsinline>
         <source id="video-source" src="" type="video/mp4">
-        Din browser understøtter ikke video.
       </video>
-
-      <!-- Paywall Overlay -->
       <div class="paywall" id="paywall">
         <div class="paywall-icon">🎬</div>
         <h2 id="paywall-title">Se videoen på Dansk</h2>
@@ -500,35 +91,19 @@
         <button class="btn btn-primary" id="pay-btn">Køb adgang</button>
       </div>
     </div>
-
-    <!-- Language Selector -->
     <div class="lang-selector">
-      <button class="lang-btn locked" data-lang="da">
-        🇩🇰 Dansk
-      </button>
-      <button class="lang-btn locked" data-lang="ur">
-        🇵🇰 اردو (Urdu)
-      </button>
-      <button class="lang-btn locked" data-lang="ar">
-        🇸🇦 العربية (Arabisk)
-      </button>
+      <button class="lang-btn locked" data-lang="da">🇩🇰 Dansk</button>
+      <button class="lang-btn locked" data-lang="ur">🇵🇰 اردو (Urdu)</button>
+      <button class="lang-btn locked" data-lang="ar">🇸🇦 العربية (Arabisk)</button>
     </div>
-
-    <!-- Video Info -->
     <div class="info">
       <h3>Om denne video</h3>
-      <p>
-        Introduktion til behandlingsforløbet ved sex- og pornoafhængighed. 
-        Videoen er tilgængelig på dansk, urdu og arabisk. Køb adgang for €5 per sprog.
-      </p>
+      <p>Introduktion til behandlingsforløbet ved sex- og pornoafhængighed. Videoen er tilgængelig på dansk, urdu og arabisk. Køb adgang for €5 per sprog.</p>
     </div>
   </div>
-
   <div class="footer">
     <p>© 2025 Dansk Sexolog Center</p>
   </div>
-
-  <!-- Payment Modal -->
   <div class="modal-overlay hidden" id="payment-modal">
     <div class="modal">
       <div class="modal-header">
@@ -536,20 +111,15 @@
         <button class="modal-close" id="modal-close">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="test-badge">
-          🧪 TEST MODE - Ingen rigtig betaling
-        </div>
-        
+        <div class="test-badge">🧪 TEST MODE - Ingen rigtig betaling</div>
         <div class="modal-price">
           <div class="amount">€5,00</div>
           <div class="desc" id="modal-product">Video adgang - Dansk</div>
         </div>
-
         <div class="form-group">
           <label>Kortnummer</label>
           <input type="text" id="card-number" placeholder="4242 4242 4242 4242" maxlength="19">
         </div>
-
         <div class="form-row">
           <div class="form-group">
             <label>Udløb</label>
@@ -560,15 +130,15 @@
             <input type="text" id="card-cvc" placeholder="123" maxlength="4">
           </div>
         </div>
-
         <div class="form-group">
           <label>Email</label>
           <input type="email" id="card-email" placeholder="din@email.dk">
         </div>
-
-        <button class="btn btn-primary btn-block" id="confirm-pay-btn">
-          Betal €5,00
-        </button>
-
-        <div class="secure-badge">
-          🔒 S
+        <button class="btn btn-primary btn-block" id="confirm-pay-btn">Betal €5,00</button>
+        <div class="secure-badge">🔒 Sikker betaling (simuleret)</div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
