@@ -428,13 +428,48 @@
       h1 {
         font-size: 1.5rem;
       }
+
+      /* Fix paywall på mobil */
+      .video-container {
+        aspect-ratio: auto;
+        min-height: 400px;
+      }
+
+      .paywall {
+        padding: 1rem;
+        overflow-y: auto;
+      }
+
+      .paywall-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .paywall h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .paywall p {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .price {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
   <!-- Header -->
   <div class="header">
-    <div>📞 5252 6262 | ✉ kontakt@misbrugsskolen.dk</div>
+    <div>📞 5252 6262 | ✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="adc6c2c3d9ccc6d9edc0c4decfdfd8cadedec6c2c1c8c383c9c6">[email&#160;protected]</a></div>
   </div>
 
   <!-- Logo -->
@@ -536,12 +571,4 @@
         </button>
 
         <div class="secure-badge">
-          🔒 Sikker betaling (simuleret)
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
+          🔒 S
