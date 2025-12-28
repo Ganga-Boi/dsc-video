@@ -98,6 +98,9 @@
   }
 
   function playVideo(lang) {
+    modal.classList.add('hidden');
+    pendingLang = null;
+    confirmPayBtn.disabled = false;
     currentLang = lang;
     hidePaywall();
     loadVideo(lang);
@@ -189,7 +192,6 @@
 
     setTimeout(function() {
       purchased[lang] = true;
-      closeModal();
       showToast(cfg.success);
       playVideo(lang);
     }, 1500);
